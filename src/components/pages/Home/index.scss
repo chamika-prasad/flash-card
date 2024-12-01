@@ -1,0 +1,49 @@
+.home-page-wrapper {
+
+    .content-wrapper {
+        padding-left: 2rem;
+        padding-right: 2rem;
+
+        .collection-text-btn-wrapper {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .collection-text-wrapper {
+
+                display: flex;
+                gap: 15px;
+
+                .collection-text-style {
+                    color: #314152;
+                }
+
+                .collection-count-text-style {
+                    background-color: #DAE4EA;
+                    border-radius: .75rem;
+                    color: #3F4759;
+                    font-size: .75rem;
+                    font-weight: 600;
+                    line-height: 1.2857;
+                    padding: .375rem .5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+
+
+        .collections-card-container {
+            margin-top: 30px;
+            // display: flex;
+            // gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+    }
+
+}
+

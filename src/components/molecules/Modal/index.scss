@@ -1,0 +1,109 @@
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+  
+    &.open {
+      display: flex;
+      opacity: 1;
+    }
+  
+    &__content {
+      background-color: #fff;
+      padding: 16px;
+      border-radius: 16px;
+      transition: transform 0.3s ease-in-out;
+      transform: scale(1);
+  
+      .modal.open & {
+        transform: scale(1.05);
+      }
+    }
+  }
+  
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 16px;
+    // max-height: 100vh;
+    // overflow-y: scroll;
+  }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .modal-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .modal-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .cvv-modal{
+    max-height: 520px;
+    overflow-y: scroll;
+  }
+  
+  .top-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 16px;
+    // border-bottom: 1px solid #e0e0e0;
+  }
+  .middle-content-section {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 0px;
+  }
+  
+  .close-icon-styles {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+  }
+  
+  .cvv-modal-wrapper {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-top: 1px solid #e0e0e0;
+    .accordion-button {
+      padding-left: 0px;
+    }
+  }
+  
+  .card-img-holder {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  
+    img {
+      width: 210px;
+    }
+  }
+  
+  .input-error-wrapper{
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .forgot-password-modal-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 658px;
+  }
