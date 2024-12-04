@@ -3,7 +3,7 @@
 ## Instructions for Setting Up the Project
 
 ### Node.js Version Requirement 
-Ensure that your system has Node.js version v18.17.1 installed.
+Ensure that your system has Node.js version `v18.17.1` installed.
 
 ### Clone the Repository 
 Execute the following command to clone the project repository
