@@ -1,4 +1,4 @@
-# Getting Started with Create Flash-Card App
+# Getting Started with Flash-Card App
 
 ## Instructions for Setting Up the Project
 
