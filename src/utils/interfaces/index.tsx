@@ -1,4 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { category, flashCard } from "utils/types";
 
 export interface ITypographyProps {
     label: string;
@@ -13,8 +14,10 @@ export interface ITypography {
 export interface IButtonProps {
     onClick: () => void;
     label: string;
+    isLoading?:boolean;
     className?: string;
-    type?: "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark" | "link"|"default";
+    isDisable?:boolean;
+    type?: "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark" | "link" | "default";
 }
 
 export interface INavBarProps {
@@ -40,8 +43,16 @@ export interface ITextAreaProps {
     onBlur?: () => void;
 }
 
-export interface IFlashCardProps{
-    title:string;
-    description:string;
-    onClick:()=>void;
+export interface IFlashCardSetProps {
+    item: category;
+    onClick: () => void;
+}
+
+export interface IFlashCardProps {
+    item: flashCard;
+    onClick: () => void;
+}
+
+export interface IErrorProps {
+    label: string;
 }

@@ -1,5 +1,8 @@
 .btn {
-    display: inline-block;
+    // display: inline-block;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-weight: 400;
     text-align: center;
     white-space: nowrap;
@@ -19,7 +22,7 @@
 .btn-default {
     background-color: #ffffff;
     color: #000000;
-    padding: 10px 20px;
+    // padding: 10px 20px;
     border-color: #000000;
     border-radius: 4px;
     cursor: pointer;
