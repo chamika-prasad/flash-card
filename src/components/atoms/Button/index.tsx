@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { IButtonProps } from "utils/interfaces";
-import loadingSvg from "assets/loading.gif";
+// import loadingSvg from "assets/loading.gif";
+import loadingSvg from "../../../assets/loading.gif";
 import "./index.scss"
 
 export const Button = ({ onClick, className, label, type, isLoading = false, isDisable = false }: IButtonProps) => {

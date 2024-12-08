@@ -4,14 +4,15 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.4.0",
-    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.120",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@vitest/ui": "^2.1.8",
     "classnames": "^2.5.1",
+    "jsdom": "^25.0.1",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -21,12 +22,14 @@
     "react-toastify": "^10.0.6",
     "sass": "^1.81.0",
     "typescript": "^4.9.5",
+    "vitest": "^2.1.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -46,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3"
   }
 }
