@@ -1,140 +1,196 @@
 .flash-card-page-wrapper {
 
-    .content-wrapper {
-        padding-left: 2rem;
-        padding-right: 2rem;
+  .content-wrapper {
+    padding-left: 2rem;
+    padding-right: 2rem;
 
-        .collection-text-btn-wrapper {
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+    .collection-text-btn-wrapper {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-            .collection-text-wrapper {
+      .collection-text-wrapper {
 
-                display: flex;
-                gap: 15px;
+        display: flex;
+        gap: 15px;
 
-                .collection-text-style {
-                    color: #314152;
-                }
-
-                .collection-count-text-style {
-                    background-color: #DAE4EA;
-                    border-radius: .75rem;
-                    color: #3F4759;
-                    font-size: .75rem;
-                    font-weight: 600;
-                    line-height: 1.2857;
-                    padding: .375rem .5rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-            }
+        .collection-text-style {
+          color: #314152;
         }
 
-        .collection-description-wrapper{
-            margin-top: 20px;
+        .collection-count-text-style {
+          background-color: #DAE4EA;
+          border-radius: .75rem;
+          color: #3F4759;
+          font-size: .75rem;
+          font-weight: 600;
+          line-height: 1.2857;
+          padding: .375rem .5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
-
-
-        .flash-cards-container {
-            margin-top: 30px;
-            // display: flex;
-            // gap: 20px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-        }
+      }
     }
+
+    .collection-description-wrapper {
+      margin-top: 20px;
+    }
+
+
+    .flash-cards-container {
+      margin-top: 30px;
+      // display: flex;
+      // gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+    }
+  }
 
 }
 
 .switch-container {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-  }
-  
-  .switch {
-    position: relative;
-    width: 60px;
-    height: 30px;
-    background-color: #ccc;
-    border-radius: 30px;
-    transition: background-color 0.3s ease;
-    margin-right: 10px;
-  }
-  
-  .switch-container.on .switch {
-    background-color: #4caf50;
-  }
-  
-  .switch-handle {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 24px;
-    height: 24px;
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-  }
-  
-  .switch-container.on .switch-handle {
-    transform: translateX(30px);
-  }
-  
-  .label {
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
-    transition: color 0.3s ease;
-  }
-  
-  .switch-container.on .label {
-    color: #4caf50;
-  }
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
 
-  .flash-card-modal-wrapper{
-    width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    text-align: justify;
-  }
+.switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 30px;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
 
-  .flash-card-title-container{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+.switch-container.on .switch {
+  background-color: #4caf50;
+}
 
-  .Button-wrapper{
-    margin-top: 20px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    justify-content: flex-end;
-  }
+.switch-handle {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
 
-  .add-flash-card-input-style{
-    padding: 10px 10px;
-    border-radius: 8px;
-  }
-  
-  .add-flash-card-wrapper{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
+.switch-container.on .switch-handle {
+  transform: translateX(30px);
+}
 
-  .review-text{
-    cursor: pointer;
-    padding: 5px 10px;
-    background-color: #4caf50;
-    border-radius: 10px;
-  }
+.label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.switch-container.on .label {
+  color: #4caf50;
+}
+
+.flash-card-modal-wrapper {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: justify;
+}
+
+.flash-card-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Button-wrapper {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.add-flash-card-input-style {
+  padding: 10px 10px;
+  border-radius: 8px;
+}
+
+.add-flash-card-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.review-text {
+  cursor: pointer;
+  padding: 5px 10px;
+  background-color: #4caf50;
+  border-radius: 10px;
+}
+
+.wrapper {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.review-wrapper {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  background: #f9f9f9;
+  margin-bottom: 15px;
+  transition: box-shadow 0.3s ease;
+}
+
+.review-wrapper:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.review-content {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+// .review-content{
+//   display: flex;
+// }
+
+.close-icon-wrapper{
+  display: flex;
+  justify-content: space-between;
+}
+
+.hide-wrapper{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.login-content-wrapper{
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.need-loging-text{
+  color: red;
+}

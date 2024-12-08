@@ -34,6 +34,12 @@ export interface IInputProps {
     onBlur?: () => void;
 }
 
+export interface ICheckBox {
+    value: boolean;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    className?: string;
+}
+
 export interface ITextAreaProps {
     placeHolder: string;
     value: string;
@@ -55,4 +61,9 @@ export interface IFlashCardProps {
 
 export interface IErrorProps {
     label: string;
+}
+
+export interface IReviewComponentProps {
+    setId: string|undefined;
+    handleModalClose :()=>void;
 }

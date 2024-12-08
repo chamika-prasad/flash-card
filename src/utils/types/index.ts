@@ -25,3 +25,14 @@ export type ratingType = {
     description: string,
     rating: number,
 }
+
+export type rating = {
+    email: string,
+    description: string,
+    rating: number,
+}
+
+export type error = {
+    data: any,
+    status: number
+}

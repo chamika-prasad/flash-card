@@ -8,21 +8,25 @@ import { CloseIcon } from "components/atoms/Icons/CloseIcon"
 import { Input } from "components/atoms/Input/input"
 import { TextArea } from "components/atoms/TextArea/input"
 import { useParams } from "react-router-dom"
-import { useAddFlashCardMutation, useGetFlashCardSetByIdQuery, useGetFlashCardsQuery } from "services/flashCardApi"
+import { useAddFlashCardMutation, useAddHideItemMutation, useGetFlashCardSetByIdQuery, useGetFlashCardsQuery, useGetRatingBySetIdQuery } from "services/flashCardApi"
 import { useAddTelemetryMutation } from "services/telemetryApi"
-import { flashCard, telemetry } from "utils/types"
+import { flashCard, rating, telemetry } from "utils/types"
 import loadingSvg from "assets/loading.gif";
 import "./index.scss"
 import { Bounce, toast, ToastContainer } from "react-toastify"
 import { ReviewComponent } from "components/molecules/Review"
+import { CheckBox } from "components/atoms/CheckBox"
+import { getToken } from "utils/functions"
 
 export const FlashCards = () => {
 
     const { id } = useParams<{ id: string }>(); // Extract the `id` from the route parameters
     const { data, isLoading, error, refetch } = useGetFlashCardsQuery(id!);
     const { data: flashCardSetData, isLoading: flashCardSetIsLoading, error: flashCardSetIsError } = useGetFlashCardSetByIdQuery(id!);
+    const { data: reviewData, isLoading: reviewDataIsLoading, error: reviewDataIsError } = useGetRatingBySetIdQuery(id!);
     const [addFlashCard, { isLoading: addFlashCardisLoading, isError: addFlashCardisError, isSuccess: addFlashCardisSuccess }] = useAddFlashCardMutation();
     const [addTelemetry, { isLoading: addTelemetryisLoading, isError: addTelemetryisError, isSuccess: addTelemetryisSuccess }] = useAddTelemetryMutation();
+    const [addHideItem, { isLoading: addHideItemLoading, isError: addHideItemisError, isSuccess: addHideItemisSuccess }] = useAddHideItemMutation();
     const [searchvalue, setSearchValue] = useState("")
     const [flashCardQuestion, setflashCardQuestion] = useState("")
     const [flashCardAnswer, setflashCardAnswer] = useState("")
@@ -31,6 +35,7 @@ export const FlashCards = () => {
     const [isFlashCardAddModalOpen, setIsFlashCardAddModalOpen] = useState(false)
     const [isReviewShow, setIsReviewShow] = useState(false)
     const [isReviewAdd, setIsReviewAdd] = useState(false)
+    const [isHide, setIsHide] = useState(false)
     const [selectedFlashCard, setSelectedFlashCard] = useState<flashCard | null>(null)
     const [startTime, setStartTime] = useState<Date | null>(null)
 
@@ -153,15 +158,49 @@ export const FlashCards = () => {
     };
 
     const handleShowReview = async () => {
-
-
+        setIsReviewShow(prev => !prev)
     };
 
     const handleAddReview = async () => {
-
-setIsReviewAdd((prev:boolean)=>!prev)
-
+        setIsReviewAdd((prev: boolean) => !prev)
     };
+
+    const handleCheckBoxChange = async () => {
+        setIsHide(prev => !prev)
+        try {
+            const payload = {
+                flashCardId: selectedFlashCard?.id
+            };
+            const response = await addHideItem(payload).unwrap();
+            toast.success("Flash Card Hide successfully!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+            setIsHide(prev => !prev)
+            refetch()
+            handleModalClose()
+        } catch (error) {
+            console.error("Error adding flashcard:", error);
+            toast.error('Something went wrong', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        }
+    }
 
 
     return (
@@ -180,7 +219,10 @@ setIsReviewAdd((prev:boolean)=>!prev)
                 theme="light"
             // transition:Bounce
             />
-            <div className="content-wrapper">
+
+            {!getToken() ? <div className="login-content-wrapper">
+                <Typography label="You need to Loging first" variant="h3" className="need-loging-text" />
+            </div> : <div className="content-wrapper">
                 <div className="collection-text-btn-wrapper">
                     <div className="collection-text-wrapper">
                         <Typography label={flashCardSetData?.name} variant="h2" className="collection-text-style" />
@@ -207,7 +249,8 @@ setIsReviewAdd((prev:boolean)=>!prev)
 
                     ))}
                 </div>
-            </div>
+            </div>}
+
             <Modal isOpen={isFlashCardShowModalOpen} onClose={handleModalClose}>
                 <div className="flash-card-modal-wrapper">
                     <div className="top-wrapper">
@@ -230,6 +273,10 @@ setIsReviewAdd((prev:boolean)=>!prev)
                     {isOn ? <Typography variant="p" label={selectedFlashCard?.answer ? selectedFlashCard?.answer : "No answer"} />
                         : <Typography variant="p" label={selectedFlashCard?.question ? selectedFlashCard?.question : "No question"} />}
 
+                    <div className="hide-wrapper">
+                        <CheckBox value={isHide} onChange={handleCheckBoxChange} />
+                        <Typography className="label" variant="p" label="Hide FlashCard" />
+                    </div>
                 </div>
             </Modal>
 
@@ -251,7 +298,39 @@ setIsReviewAdd((prev:boolean)=>!prev)
             </Modal>
 
             <Modal isOpen={isReviewAdd} onClose={handleAddReview}>
-                <ReviewComponent setId={id}/>
+                <ReviewComponent setId={id} handleModalClose={handleAddReview} />
+            </Modal>
+            <Modal isOpen={isReviewShow} onClose={handleShowReview}>
+                <div className="review-show-wrapper" >
+                    <div className="close-icon-wrapper">
+                        <Typography variant="h1" label="Reviews" />
+                        <CloseIcon
+                            className="close-icon-styles"
+                            onClick={handleShowReview}
+                        /></div>
+
+                    <div className="wrapper">
+                        {reviewData?.map((review: rating, index: number) => (
+                            <div key={index} className="review-wrapper">
+                                <div className="review-container">
+                                    <div className="review-content">
+                                        <Typography label="Email:" variant="h5" />
+                                        <Typography label={review.email} variant="p" />
+                                    </div>
+                                    <div className="review-content">
+                                        <Typography label="Rating:" variant="h5" />
+                                        <Typography label={`${review.rating} / 5`} variant="p" />
+                                    </div>
+                                    <div className="review-content">
+                                        <Typography label="Description:" variant="h5" />
+                                        <Typography label={review.description} variant="p" />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                </div>
             </Modal>
         </div>
     )

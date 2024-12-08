@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.scss"
 import { FlashError } from "components/molecules/Error"
 import { ReviewComponent } from "components/molecules/Review"
+import { getToken } from "utils/functions"
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ export const Home = () => {
     const [collectionNameError, setCollectionNameError] = useState("")
     const [collectionDescriptionError, setCollectionDescriptionError] = useState("")
     const [isFlashCardCollectionAddModalOpen, setIsFlashCardCollectionAddModalOpen] = useState(false)
-    const { data, isLoading, isError, refetch } = useGetFlashCardSetsQuery();
+    const { data, isLoading, isError, refetch, error } = useGetFlashCardSetsQuery();
     const [addFlashCardCategory, { isLoading: addFlashCardCategoryisLoading, isError: addFlashCardCategoryisError, isSuccess: addFlashCardCategoryisSuccess }] = useAddFlashCardCategoryMutation();
 
 
@@ -62,14 +63,11 @@ export const Home = () => {
             setCollectionNameError("Description Field is Required")
         }
 
-
         if (flashCardCollectionName && flashCardCollectionDescription) {
             const payload = {
                 name: flashCardCollectionName,
                 description: flashCardCollectionDescription,
             };
-
-
 
             try {
                 const response = await addFlashCardCategory(payload).unwrap();
@@ -107,6 +105,69 @@ export const Home = () => {
 
     };
 
+    useEffect(() => {
+        if (error && 'status' in error) {
+
+            switch (error.status) {
+                case 401:
+                    toast.error('Unauthorized user.Sign in again', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                    break;
+                case 403:
+                    // code block
+                    toast.error('Please Sign in First', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+
+                    break;
+
+                case 500:
+                    toast.error('Internal Server Error', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                    break;
+                default:
+                    toast.error('Something went wrong. Please Try again', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+            }
+
+        }
+    }, [error])
+
     return (
         <div className="home-page-wrapper">
             <NavBar searchValue={searchvalue} setSearchValue={setSearchValue} />
@@ -124,8 +185,8 @@ export const Home = () => {
             // transition:Bounce
             />
 
-           
-            <div className="content-wrapper">
+
+            {getToken() ? <div className="content-wrapper">
                 <div className="collection-text-btn-wrapper">
                     <div className="collection-text-wrapper">
                         <Typography label="Flash Card Collections" variant="h2" className="collection-text-style" />
@@ -142,7 +203,9 @@ export const Home = () => {
 
                     ))}
                 </div>
-            </div>
+            </div> : <div className="login-content-wrapper">
+                <Typography label="You need to Loging first" variant="h3" className="need-loging-text" />
+            </div>}
 
             <Modal isOpen={isFlashCardCollectionAddModalOpen} onClose={handleModalClose}>
                 <div className="flash-card-modal-wrapper">

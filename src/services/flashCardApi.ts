@@ -1,3 +1,4 @@
+import { getToken } from "utils/functions";
 import { baseApi } from "./api";
 
 const flashCardApis = baseApi.injectEndpoints({
@@ -7,10 +8,11 @@ const flashCardApis = baseApi.injectEndpoints({
                 url: "/flashcards/categories",
                 method: "POST",
                 headers: {
-                    Authorization: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBkYzc3OWM5LWIzMzktMTFlZi1hYmNmLWNjMjhhYThjZWNkNCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MzM1Njc4MjEsImV4cCI6MTczMzU4NTgyMX0.ENNvSYmmVNmObBS8yznWqy7kkO-uK3RpNE6WlCydStY",
+                    Authorization: `bearer ${getToken()}`,
                     "Content-Type": "application/json", // Ensure the payload is sent as JSON
                 },
-                body: { name, description }, // Pass the payload dynamically
+                body: { name, description },
+                // Pass the payload dynamically
             }),
         }),
         getFlashCardSets: builder.query<any, void>({
@@ -18,7 +20,7 @@ const flashCardApis = baseApi.injectEndpoints({
                 url: "/flashcards/categories",
                 method: "Get",
                 headers: {
-                    Authorization: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBkYzc3OWM5LWIzMzktMTFlZi1hYmNmLWNjMjhhYThjZWNkNCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MzM1Njc4MjEsImV4cCI6MTczMzU4NTgyMX0.ENNvSYmmVNmObBS8yznWqy7kkO-uK3RpNE6WlCydStY"
+                    Authorization: `bearer ${getToken()}`
                 }
             })
         }),
@@ -27,7 +29,7 @@ const flashCardApis = baseApi.injectEndpoints({
                 url: `/flashcards/${id}`,
                 method: "GET",
                 headers: {
-                    Authorization: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBkYzc3OWM5LWIzMzktMTFlZi1hYmNmLWNjMjhhYThjZWNkNCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MzM1Njc4MjEsImV4cCI6MTczMzU4NTgyMX0.ENNvSYmmVNmObBS8yznWqy7kkO-uK3RpNE6WlCydStY",
+                    Authorization: `bearer ${getToken()}`,
                 },
             }),
         }),
@@ -36,7 +38,7 @@ const flashCardApis = baseApi.injectEndpoints({
                 url: "/flashcards",
                 method: "POST",
                 headers: {
-                    Authorization: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBkYzc3OWM5LWIzMzktMTFlZi1hYmNmLWNjMjhhYThjZWNkNCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MzM1Njc4MjEsImV4cCI6MTczMzU4NTgyMX0.ENNvSYmmVNmObBS8yznWqy7kkO-uK3RpNE6WlCydStY",
+                    Authorization: `bearer ${getToken()}`,
                     "Content-Type": "application/json", // Ensure the payload is sent as JSON
                 },
                 body: { question, answer, categoryId }, // Pass the payload dynamically
@@ -47,22 +49,42 @@ const flashCardApis = baseApi.injectEndpoints({
                 url: `/flashcards/categories/${id}`,
                 method: "GET",
                 headers: {
-                    Authorization: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBkYzc3OWM5LWIzMzktMTFlZi1hYmNmLWNjMjhhYThjZWNkNCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MzM1Njc4MjEsImV4cCI6MTczMzU4NTgyMX0.ENNvSYmmVNmObBS8yznWqy7kkO-uK3RpNE6WlCydStY",
+                    Authorization: `bearer ${getToken()}`,
                 },
             }),
         }),
-        addRating: builder.mutation<any, { flash_card_set_id:string|undefined, description:string,rating:number }>({
+        addRating: builder.mutation<any, { flash_card_set_id: string | undefined, description: string, rating: number }>({
             query: ({ flash_card_set_id, description, rating }) => ({
                 url: "/flashcards/rating",
                 method: "POST",
                 headers: {
-                    Authorization: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBkYzc3OWM5LWIzMzktMTFlZi1hYmNmLWNjMjhhYThjZWNkNCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MzM1Njc4MjEsImV4cCI6MTczMzU4NTgyMX0.ENNvSYmmVNmObBS8yznWqy7kkO-uK3RpNE6WlCydStY",
+                    Authorization: `bearer ${getToken()}`,
                     "Content-Type": "application/json", // Ensure the payload is sent as JSON
                 },
                 body: { flash_card_set_id, description, rating }, // Pass the payload dynamically
             }),
         }),
+        getRatingBySetId: builder.query<any, string>({
+            query: (id) => ({
+                url: `/flashcards/get-rating/${id}`,
+                method: "GET",
+                headers: {
+                    Authorization: `bearer ${getToken()}`,
+                },
+            }),
+        }),
+        addHideItem: builder.mutation<any, { flashCardId: string | undefined }>({
+            query: ({ flashCardId }) => ({
+                url: "/flashcards/hide",
+                method: "POST",
+                headers: {
+                    Authorization: `bearer ${getToken()}`,
+                    "Content-Type": "application/json", // Ensure the payload is sent as JSON
+                },
+                body: { flashCardId }, // Pass the payload dynamically
+            }),
+        }),
     })
 })
 
-export const { useGetFlashCardSetsQuery, useGetFlashCardsQuery, useAddFlashCardMutation, useAddFlashCardCategoryMutation, useGetFlashCardSetByIdQuery,useAddRatingMutation } = flashCardApis;
+export const { useGetFlashCardSetsQuery, useGetFlashCardsQuery, useAddFlashCardMutation, useAddFlashCardCategoryMutation, useGetFlashCardSetByIdQuery, useAddRatingMutation, useGetRatingBySetIdQuery, useAddHideItemMutation } = flashCardApis;

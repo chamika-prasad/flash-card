@@ -1,5 +1,5 @@
 import { Typography } from "components/atoms/Typography"
-import { IErrorProps, IFlashCardSetProps } from "utils/interfaces";
+import { IErrorProps, IFlashCardSetProps, IReviewComponentProps } from "utils/interfaces";
 import { Star } from "lucide-react";
 import "./index.scss";
 import { ChangeEvent, useState } from "react";
@@ -8,11 +8,8 @@ import { TextArea } from "components/atoms/TextArea/input";
 import { useAddRatingMutation } from "services/flashCardApi";
 import { ratingType } from "utils/types";
 
-interface Iprops {
-    setId: string|undefined;
-}
 
-export const ReviewComponent = ({ setId }: Iprops) => {
+export const ReviewComponent = ({ setId, handleModalClose }: IReviewComponentProps) => {
     const [rating, setRating] = useState<number>(0);
     const [comment, setComment] = useState<string>('');
     const [hoveredRating, setHoveredRating] = useState<number>(0);
@@ -38,6 +35,7 @@ export const ReviewComponent = ({ setId }: Iprops) => {
 
             try {
                 const response = await addRating(ratingItem).unwrap();
+                handleModalClose()
             } catch (error) {
                 console.error("Error adding flashcard:", error);
             }

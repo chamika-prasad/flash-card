@@ -34,3 +34,54 @@
         border-radius: 5px;
     }
 }
+
+.user-form-modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+
+.user-action-close-icon-styles {
+    // display: flex;
+    // align-items: center;
+    // justify-content: flex-end !important;
+    cursor: pointer;
+}
+
+.user-modal-input-style {
+    padding: 10px 10px;
+    border-radius: 8px;
+}
+
+.user-action-top-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.user-action-Button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.btn-custm-style {
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.other-action-wrapper{
+margin-top: 10px;
+display: flex;
+align-items: center;
+gap: 5px;
+}
+
+.action{
+    cursor: pointer;
+    color: blue;
+}
