@@ -15,7 +15,7 @@ git clone https://github.com/chamika-prasad/flash-card.git
 Navigate to the project directory and install the required packages by running:
 
 ```bash
-npm install
+npm install --force
 ```
 
 ### Run the Project
@@ -23,6 +23,13 @@ Start the application using the following command:
 
 ```bash
 npm start
+```
+
+### Run Tests
+Run the application Tests using following command:
+
+```bash
+npm run test:ui
 ```
 
 Runs the app in the development mode.\
