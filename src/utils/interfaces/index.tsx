@@ -27,11 +27,12 @@ export interface INavBarProps {
 
 export interface IInputProps {
     placeHolder: string;
-    value: string;
+    value: string|number;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     className?: string;
     onFocus?: () => void;
     onBlur?: () => void;
+    type?:"text"|"number";
 }
 
 export interface ICheckBox {
@@ -66,4 +67,12 @@ export interface IErrorProps {
 export interface IReviewComponentProps {
     setId: string|undefined;
     handleModalClose :()=>void;
+}
+
+export interface JwtPayload {
+    id: string;
+    email: string;
+    role: number;
+    iat: number;
+    exp: number;
 }

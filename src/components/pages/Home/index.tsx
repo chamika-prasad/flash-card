@@ -8,14 +8,17 @@ import { Input } from "components/atoms/Input/input"
 import { CloseIcon } from "components/atoms/Icons/CloseIcon"
 import { useNavigate } from "react-router-dom"
 import { useAddFlashCardCategoryMutation, useGetFlashCardSetsQuery } from "services/flashCardApi"
+import { useGetLimitQuery, useUpdateLimitMutation } from "services/settingApi"
 import { category } from "utils/types"
 import { TextArea } from "components/atoms/TextArea/input"
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import "./index.scss"
 import { FlashError } from "components/molecules/Error"
 import { ReviewComponent } from "components/molecules/Review"
 import { getToken } from "utils/functions"
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "utils/interfaces"
+import "./index.scss"
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -25,8 +28,12 @@ export const Home = () => {
     const [collectionNameError, setCollectionNameError] = useState("")
     const [collectionDescriptionError, setCollectionDescriptionError] = useState("")
     const [isFlashCardCollectionAddModalOpen, setIsFlashCardCollectionAddModalOpen] = useState(false)
+    const [isLimitChangeModalOpen, setIsLimitChangeModalOpen] = useState(false)
+    const [currentLimit, setCurrentLimit] = useState(0)
     const { data, isLoading, isError, refetch, error } = useGetFlashCardSetsQuery();
+    const { data: limitData, isLoading: limitDataIsLoading, isError: limitDataIsError, refetch: limitDataRefetch } = useGetLimitQuery();
     const [addFlashCardCategory, { isLoading: addFlashCardCategoryisLoading, isError: addFlashCardCategoryisError, isSuccess: addFlashCardCategoryisSuccess }] = useAddFlashCardCategoryMutation();
+    const [categoryLimit, { isLoading: addLimitLoading, isError: addLimitIsError }] = useUpdateLimitMutation();
 
 
     const handleFlashCardPageRederection = (collectionId: string) => {
@@ -52,8 +59,6 @@ export const Home = () => {
     }
 
     const handleAddFlashCardCategory = async () => {
-
-
 
         if (!flashCardCollectionName) {
             setCollectionNameError("Name Field is Required")
@@ -104,6 +109,67 @@ export const Home = () => {
         }
 
     };
+
+    const handleLimitChangeModalOpen = () => {
+        setIsLimitChangeModalOpen(prev => !prev)
+    }
+
+    const changeCollectionLimit = (e: ChangeEvent<HTMLInputElement>) => {
+        setCurrentLimit(Number(e.target.value))
+    }
+
+    const handleLimitClear = () => {
+        setCurrentLimit(limitData?.daily_limit)
+    }
+
+    const submitNewLimit = async () => {
+        const payload = {
+            limit: currentLimit,
+        };
+        try {
+            const response = await categoryLimit(payload).unwrap();
+            console.log("Limit updated successfully:", response);
+            limitDataRefetch()
+            handleLimitChangeModalOpen()
+            toast.success("Limit updated successfully!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        } catch (error) {
+            console.error("Error Limit update:", error);
+            toast.error('Something went wrong', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        }
+    }
+
+    const isAdmin = (): boolean => {
+        let token = getToken();
+        if (token) {
+            const decoded = jwtDecode<JwtPayload>(token);
+            if (decoded.role == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false
+    }
 
     useEffect(() => {
         if (error && 'status' in error) {
@@ -168,6 +234,13 @@ export const Home = () => {
         }
     }, [error])
 
+    useEffect(() => {
+        if (limitData) {
+            setCurrentLimit(limitData.daily_limit)
+        }
+        isAdmin()
+    }, [limitData])
+
     return (
         <div className="home-page-wrapper">
             <NavBar searchValue={searchvalue} setSearchValue={setSearchValue} />
@@ -190,9 +263,13 @@ export const Home = () => {
                 <div className="collection-text-btn-wrapper">
                     <div className="collection-text-wrapper">
                         <Typography label="Flash Card Collections" variant="h2" className="collection-text-style" />
-                        <Typography label="30" variant="h2" className="collection-count-text-style" />
+                        <Typography label={data?.length} variant="h2" className="collection-count-text-style" />
                     </div>
-                    <Button label="Add Collection" type="warning" onClick={handleModalClose} />
+                    <div className="collection-btn-wrapper">
+                        <Button label="Add Collection" type="warning" onClick={handleModalClose} />
+                        {isAdmin() ? <Button label="Change Collection Limit" type="dark" onClick={handleModalClose} /> : null}
+                    </div>
+
                 </div>
 
                 <div className="collections-card-container">
@@ -222,6 +299,23 @@ export const Home = () => {
                     <div className="Button-wrapper">
                         <Button onClick={handleClear} label="Clear" type="danger" />
                         <Button onClick={handleAddFlashCardCategory} label="Submit" type="success" isDisable={!flashCardCollectionName || !flashCardCollectionDescription} />
+                    </div>
+                </div>
+            </Modal>
+
+            <Modal isOpen={isLimitChangeModalOpen} onClose={handleLimitChangeModalOpen}>
+                <div className="flash-card-modal-wrapper">
+                    <div className="top-wrapper">
+                        <CloseIcon
+                            className="close-icon-styles"
+                            onClick={handleLimitChangeModalOpen}
+                        />
+                    </div>
+                    <Input placeHolder="Collection Limit" onChange={changeCollectionLimit} type="number" value={currentLimit} className="add-flash-card-input-style" />
+                    {collectionNameError ? <FlashError label={collectionNameError} /> : null}
+                    <div className="Button-wrapper">
+                        <Button onClick={handleLimitClear} label="Clear" type="danger" />
+                        <Button onClick={submitNewLimit} label="Submit" type="success" isDisable={limitData?.daily_limit == currentLimit || currentLimit == 0} />
                     </div>
                 </div>
             </Modal>

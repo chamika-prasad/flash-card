@@ -1,5 +1,4 @@
 .home-page-wrapper {
-
     .content-wrapper {
         padding-left: 2rem;
         padding-right: 2rem;
@@ -44,7 +43,12 @@
             gap: 40px;
         }
     }
+}
 
+.collection-btn-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 

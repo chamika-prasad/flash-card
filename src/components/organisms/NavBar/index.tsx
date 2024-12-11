@@ -95,6 +95,7 @@ export const NavBar = ({ searchValue, setSearchValue }: INavBarProps) => {
                     password: pasword,
                 };
                 const response = await loginUser(payload).unwrap();
+                localStorage.removeItem("token");
                 localStorage.setItem("token", response?.data);
 
                 toast.success("User login Successfully!", {
@@ -115,6 +116,8 @@ export const NavBar = ({ searchValue, setSearchValue }: INavBarProps) => {
                 console.error("Error Registering:", error);
             }
         }
+        setEmail("")
+        setPassword("")
     }
 
     const handleOpositeAction = (opositeAction: "login" | "signup") => {
